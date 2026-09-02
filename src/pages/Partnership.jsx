@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import ContactCta from '../components/ContactCta.jsx'
-import { Reveal } from '../components/ui.jsx'
+import { Reveal, Ico } from '../components/ui.jsx'
 
 /* Both forms POST to formsubmit.co, same as the original site. */
 const FORM_ENDPOINT = 'https://formsubmit.co/alfredo.torres@fmp.com.do'
@@ -33,14 +33,14 @@ function TabExplorer({ items, cta }) {
             className={`svc-tile ${i === safe ? 'on' : ''}`}
             onClick={() => { setActive(i); setLocked(true) }}
           >
-            <div className="ico">{item.icon}</div>
+            <div className="ico"><Ico icon={item.icon} /></div>
             <div className="lbl">{item.lead}</div>
           </button>
         ))}
       </div>
       <div className="svc-spot" style={{ marginTop: 26 }}>
         <div className="svc-spot-in" key={safe}>
-          <div className="svc-spot-ico">{it.icon}</div>
+          <div className="svc-spot-ico"><Ico icon={it.icon} /></div>
           <div>
             <h3>{it.lead}</h3>
             <p style={{ marginBottom: 18 }}>{it.text}</p>
