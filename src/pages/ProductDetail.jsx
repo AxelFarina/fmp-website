@@ -192,8 +192,10 @@ export default function ProductDetail({ t, lang, slug }) {
           <div className="detail-cols" style={{ alignItems: 'center' }}>
             <div>
               <div className="hero-badge"><span className="accent">✦</span> {productCats[lang][prod.cat]}</div>
-              {prod.logo && <img src={prod.logo} alt={d.name} className="prod-logo" />}
-              <h1 style={{ margin: '0 0 16px' }}>{d.name}</h1>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 18, flexWrap: 'wrap', margin: '0 0 16px' }}>
+                {prod.logo && <img src={prod.logo} alt="" className="prod-logo prod-logo-inline" />}
+                <h1 style={{ margin: 0 }}>{d.name}</h1>
+              </div>
               <p style={{ margin: '0 0 14px', fontSize: 17, color: 'rgba(var(--tx-rgb),.8)' }}>{d.tagline}</p>
               {intro.map((p) => (
                 <p key={p} style={{ margin: '0 0 14px', fontSize: 15.5, lineHeight: 1.7, color: 'rgba(var(--tx-rgb),.6)' }}>{p}</p>
