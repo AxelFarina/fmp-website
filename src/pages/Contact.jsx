@@ -212,7 +212,7 @@ export default function Contact({ t }) {
             <div className="chan-card">
               <div className="chan-ico">✉</div>
               <h3>{c.writeTitle}</h3>
-              <p className="chan-val">{c.writeText}<br /><strong style={{ color: '#0B2239' }}>comercial@fmp.com.do</strong></p>
+              <p className="chan-val">{c.writeText}<br /><strong style={{ color: 'var(--head)' }}>comercial@fmp.com.do</strong></p>
               <div className="chan-actions">
                 <a href="mailto:comercial@fmp.com.do" className="chan-btn">✉ {c.chanWriteAction}</a>
               </div>
@@ -222,7 +222,7 @@ export default function Contact({ t }) {
             <div className="chan-card">
               <div className="chan-ico">✆</div>
               <h3>{c.callTitle}</h3>
-              <p className="chan-val">{c.callText}<br /><strong style={{ color: '#0B2239' }}>{c.phone}</strong></p>
+              <p className="chan-val">{c.callText}<br /><strong style={{ color: 'var(--head)' }}>{c.phone}</strong></p>
               <div className="chan-actions">
                 <a href="tel:+18096202177" className="chan-btn">✆ {c.chanCallAction}</a>
                 <a href="https://wa.me/18297620971" target="_blank" rel="noreferrer" className="chan-btn">✆ {c.chanWaAction}</a>

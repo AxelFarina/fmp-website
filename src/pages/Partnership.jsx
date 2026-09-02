@@ -144,8 +144,8 @@ export default function Partnership({ t }) {
               <input type="hidden" name="_subject" value="Nuevo registro de referidor — FMP" />
               <input type="hidden" name="_template" value="table" />
               <input type="hidden" name="_captcha" value="false" />
-              <h3 style={{ margin: '0 0 4px', fontSize: 21, color: '#0B2239' }}>{p.regTitle}</h3>
-              <p style={{ margin: '0 0 10px', fontSize: 13.5, lineHeight: 1.6, color: 'rgba(15,42,68,.6)' }}>{p.regText}</p>
+              <h3 style={{ margin: '0 0 4px', fontSize: 21, color: 'var(--head)' }}>{p.regTitle}</h3>
+              <p style={{ margin: '0 0 10px', fontSize: 13.5, lineHeight: 1.6, color: 'rgba(var(--tx-rgb),.6)' }}>{p.regText}</p>
               <label>{p.regName}<input name="nombre" required placeholder={p.regNamePh} /></label>
               <label>{p.regEmail}<input name="correo" type="email" required placeholder={p.regEmailPh} /></label>
               <label>{p.regSpec}<textarea name="especializacion" rows="3" required placeholder={p.regSpecPh} /></label>
@@ -154,7 +154,7 @@ export default function Partnership({ t }) {
                 <span>{p.regTerms}</span>
               </label>
               <button type="submit">{p.regBtn}</button>
-              <p style={{ margin: 0, fontSize: 11.5, color: 'rgba(15,42,68,.45)', textAlign: 'center' }}>{p.regPrivacy}</p>
+              <p style={{ margin: 0, fontSize: 11.5, color: 'rgba(var(--tx-rgb),.45)', textAlign: 'center' }}>{p.regPrivacy}</p>
             </form>
           </Reveal>
           <Reveal>
@@ -162,8 +162,8 @@ export default function Partnership({ t }) {
               <input type="hidden" name="_subject" value="Nuevo referido único — FMP" />
               <input type="hidden" name="_template" value="table" />
               <input type="hidden" name="_captcha" value="false" />
-              <h3 style={{ margin: '0 0 4px', fontSize: 21, color: '#0B2239' }}>{p.refTitle}</h3>
-              <p style={{ margin: '0 0 10px', fontSize: 13.5, lineHeight: 1.6, color: 'rgba(15,42,68,.6)' }}>{p.refText}</p>
+              <h3 style={{ margin: '0 0 4px', fontSize: 21, color: 'var(--head)' }}>{p.refTitle}</h3>
+              <p style={{ margin: '0 0 10px', fontSize: 13.5, lineHeight: 1.6, color: 'rgba(var(--tx-rgb),.6)' }}>{p.refText}</p>
               <label>{p.refName}<input name="nombre_referidor" required placeholder={p.refNamePh} /></label>
               <label>{p.refCompany}<input name="empresa_referida" required placeholder={p.refCompanyPh} /></label>
               <label>{p.refContact}<input name="contacto_principal" required placeholder={p.refContactPh} /></label>

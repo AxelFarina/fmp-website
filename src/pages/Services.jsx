@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import ContactCta from '../components/ContactCta.jsx'
-import { Reveal } from '../components/ui.jsx'
+import { Reveal, Ico } from '../components/ui.jsx'
 
 /* Tap a tile — the spotlight panel shows that service. Auto-rotates until the user takes over. */
 function ServiceExplorer({ t }) {
@@ -27,7 +27,7 @@ function ServiceExplorer({ t }) {
             className={`svc-tile ${i === active ? 'on' : ''}`}
             onClick={() => { setActive(i); setLocked(true) }}
           >
-            <div className="ico">{item.icon}</div>
+            <div className="ico"><Ico icon={item.icon} /></div>
             <div className="lbl">{item.title}</div>
           </button>
         ))}
@@ -35,7 +35,7 @@ function ServiceExplorer({ t }) {
       <p className="svc-hint">{s.hint}</p>
       <div className="svc-spot">
         <div className="svc-spot-in" key={active}>
-          <div className="svc-spot-ico">{it.icon}</div>
+          <div className="svc-spot-ico"><Ico icon={it.icon} /></div>
           <div>
             <h3>{it.title}</h3>
             <p>{it.desc}</p>

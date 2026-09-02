@@ -34,6 +34,7 @@ const TITLES = {
 export default function App() {
   const route = useRoute()
   const [lang, setLang] = useState(() => localStorage.getItem('fmp-lang') || 'es')
+  const [theme, setTheme] = useState(() => localStorage.getItem('fmp-theme') || 'light')
   const [showSplash, setShowSplash] = useState(
     () =>
       typeof window !== 'undefined' &&
@@ -50,6 +51,10 @@ export default function App() {
   }, [showSplash])
 
   useEffect(() => { localStorage.setItem('fmp-lang', lang) }, [lang])
+  useEffect(() => {
+    localStorage.setItem('fmp-theme', theme)
+    document.documentElement.dataset.theme = theme
+  }, [theme])
   useEffect(() => {
     const key = route.page === 'producto' ? 'productos' : route.page
     document.title = Object.hasOwn(TITLES[lang], key) ? TITLES[lang][key] : TITLES[lang].home
@@ -82,13 +87,13 @@ export default function App() {
     case 'producto': page = <ProductDetail t={t} lang={lang} slug={route.slug} />; break
     case 'partnership': page = <Partnership t={t} />; break
     case 'contacto': page = <Contact t={t} />; break
-    default: page = <Home t={t} lang={lang} splash={showSplash} />
+    default: page = <Home t={t} lang={lang} theme={theme} />
   }
 
   return (
     <>
       {showSplash && route.page === 'home' && <Splash />}
-      <Nav t={t} lang={lang} setLang={setLang} route={route} />
+      <Nav t={t} lang={lang} setLang={setLang} route={route} theme={theme} setTheme={setTheme} />
       {page}
       <Footer t={t} />
     </>

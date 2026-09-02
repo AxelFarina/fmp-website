@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import ContactCta from '../components/ContactCta.jsx'
-import { Reveal } from '../components/ui.jsx'
+import { Reveal, Ico } from '../components/ui.jsx'
 import { products, productCats } from '../content/products.js'
 
 /* Tap a feature tile — the navy spotlight shows its detail. Auto-rotates until tapped. */
@@ -30,7 +30,7 @@ function FeatureExplorer({ items, hint, cta }) {
             className={`svc-tile ${i === safe ? 'on' : ''}`}
             onClick={() => { setActive(i); setLocked(true) }}
           >
-            <div className="ico">{item.icon}</div>
+            <div className="ico"><Ico icon={item.icon} /></div>
             <div className="lbl">{item.title}</div>
           </button>
         ))}
@@ -38,7 +38,7 @@ function FeatureExplorer({ items, hint, cta }) {
       <p className="svc-hint">{hint}</p>
       <div className="svc-spot">
         <div className="svc-spot-in" key={safe}>
-          <div className="svc-spot-ico">{it.icon}</div>
+          <div className="svc-spot-ico"><Ico icon={it.icon} /></div>
           <div>
             <h3>{it.title}</h3>
             <p style={{ marginBottom: 18 }}>{it.desc}</p>
@@ -128,7 +128,7 @@ function Section({ sec }) {
     return (
       <Reveal>
         {sec.title && <h2>{sec.title}</h2>}
-        {sec.paras.map((p) => <p key={p} style={{ fontSize: 15.5, lineHeight: 1.75, color: 'rgba(15,42,68,.72)' }}>{p}</p>)}
+        {sec.paras.map((p) => <p key={p} style={{ fontSize: 15.5, lineHeight: 1.75, color: 'rgba(var(--tx-rgb),.72)' }}>{p}</p>)}
       </Reveal>
     )
   }
@@ -141,7 +141,7 @@ function Section({ sec }) {
         <div className="module-grid">
           {sec.items.map((m) => (
             <div key={m.label} className="module-tile">
-              <div className="module-ico">{m.icon}</div>
+              <div className="module-ico"><Ico icon={m.icon} /></div>
               <div className="module-lbl">{m.label}</div>
             </div>
           ))}
@@ -192,10 +192,11 @@ export default function ProductDetail({ t, lang, slug }) {
           <div className="detail-cols" style={{ alignItems: 'center' }}>
             <div>
               <div className="hero-badge"><span className="accent">✦</span> {productCats[lang][prod.cat]}</div>
+              {prod.logo && <img src={prod.logo} alt={d.name} className="prod-logo" />}
               <h1 style={{ margin: '0 0 16px' }}>{d.name}</h1>
-              <p style={{ margin: '0 0 14px', fontSize: 17, color: 'rgba(15,42,68,.8)' }}>{d.tagline}</p>
+              <p style={{ margin: '0 0 14px', fontSize: 17, color: 'rgba(var(--tx-rgb),.8)' }}>{d.tagline}</p>
               {intro.map((p) => (
-                <p key={p} style={{ margin: '0 0 14px', fontSize: 15.5, lineHeight: 1.7, color: 'rgba(15,42,68,.6)' }}>{p}</p>
+                <p key={p} style={{ margin: '0 0 14px', fontSize: 15.5, lineHeight: 1.7, color: 'rgba(var(--tx-rgb),.6)' }}>{p}</p>
               ))}
               {hasMore && (
                 <button type="button" className="read-more" onClick={() => setExpanded(!expanded)}>
@@ -209,9 +210,6 @@ export default function ProductDetail({ t, lang, slug }) {
             </div>
             <div style={{ position: 'relative' }}>
               <img src={prod.img} alt={d.name} className="detail-img" style={{ filter: 'saturate(.85)' }} />
-              {prod.logo && (
-                <img src={prod.logo} alt="" style={{ position: 'absolute', left: 18, bottom: 14, height: 46, objectFit: 'contain', filter: 'drop-shadow(0 2px 10px rgba(0,0,0,.7))' }} />
-              )}
               {prod.stat && (
                 <div className="stat-float">
                   <div className="stat-float-num">{prod.stat.value}</div>
@@ -238,7 +236,7 @@ export default function ProductDetail({ t, lang, slug }) {
           <div className="detail-aside">
             <div className="check-card">
               <h4>{pp.asideTitle}</h4>
-              <p style={{ margin: '0 0 18px', fontSize: 14, lineHeight: 1.6, color: 'rgba(15,42,68,.6)' }}>{pp.asideText}</p>
+              <p style={{ margin: '0 0 18px', fontSize: 14, lineHeight: 1.6, color: 'rgba(var(--tx-rgb),.6)' }}>{pp.asideText}</p>
               <a href="#/contacto" className="btn-primary" style={{ display: 'inline-block' }}>{pp.demo}</a>
             </div>
             {related.length > 0 && (

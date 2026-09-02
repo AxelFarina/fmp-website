@@ -1,6 +1,6 @@
 import RegionMap from '../components/RegionMap.jsx'
 import ContactCta from '../components/ContactCta.jsx'
-import { Reveal, SpotCard } from '../components/ui.jsx'
+import { Reveal, SpotCard, Ico } from '../components/ui.jsx'
 import { industriesFor } from '../i18n.js'
 import { products } from '../content/products.js'
 
@@ -16,7 +16,7 @@ const TAGS = [
   { label: 'M365', style: { right: -14, top: 150, animationDelay: '1.8s' } },
 ]
 
-export default function Home({ t, lang }) {
+export default function Home({ t, lang, theme }) {
   const h = t.home
   const industries = industriesFor(lang)
 
@@ -111,12 +111,13 @@ export default function Home({ t, lang }) {
               <h3 style={{ fontSize: 26, letterSpacing: '-1px' }}>{h.benefitsTitle}</h3>
               <ul style={{ margin: '20px 0 0', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 13, position: 'relative' }}>
                 {h.benefits.map((b) => (
-                  <li key={b} style={{ position: 'relative', paddingLeft: 28, fontSize: 15, lineHeight: 1.6, color: 'rgba(15,42,68,.75)' }}>
-                    <span style={{ position: 'absolute', left: 0, top: 1, color: '#1B75B7', fontWeight: 700 }}>✓</span>
+                  <li key={b} style={{ position: 'relative', paddingLeft: 28, fontSize: 15, lineHeight: 1.6, color: 'rgba(var(--tx-rgb),.75)' }}>
+                    <span style={{ position: 'absolute', left: 0, top: 1, color: 'var(--acc)', fontWeight: 700 }}>✓</span>
                     {b}
                   </li>
                 ))}
               </ul>
+              <img src="assets/img/sap-partner-badge.jpg" alt="SAP Partner" style={{ position: 'relative', height: 54, borderRadius: 8, marginTop: 24, background: '#fff', padding: 4 }} />
             </SpotCard>
           </Reveal>
           <Reveal>
@@ -158,7 +159,7 @@ export default function Home({ t, lang }) {
           {t.services.items.slice(2, 6).map((s) => (
             <Reveal key={s.title}>
               <SpotCard className="card" style={{ height: '100%' }}>
-                <div className="card-icon">{s.icon}</div>
+                <div className="card-icon"><Ico icon={s.icon} /></div>
                 <h3 style={{ fontSize: 17 }}>{s.title}</h3>
                 <p style={{ fontSize: 13.5 }}>{s.desc}</p>
               </SpotCard>
@@ -218,7 +219,7 @@ export default function Home({ t, lang }) {
         </div>
       </div>
 
-      <RegionMap t={{ globeKicker: h.globeKicker, globeTitle: h.globeTitle, globeSub: h.globeSub }} />
+      <RegionMap t={{ globeKicker: h.globeKicker, globeTitle: h.globeTitle, globeSub: h.globeSub }} dark={theme === 'dark'} />
       <ContactCta t={t} />
     </>
   )

@@ -26,7 +26,7 @@ function makeProjection() {
   return geoEquirectangular().center([-82.5, 15]).scale(scale).translate([W / 2, H / 2])
 }
 
-export default function RegionMap({ t }) {
+export default function RegionMap({ t, dark = false }) {
   const canvasRef = useRef(null)
   const [pins, setPins] = useState([])
 
@@ -51,15 +51,17 @@ export default function RegionMap({ t }) {
     canvas.width = W * 2
     canvas.height = H * 2
     const ctx = canvas.getContext('2d')
-    ctx.scale(2, 2)
+    ctx.setTransform(2, 0, 0, 2, 0, 0)
+    ctx.clearRect(0, 0, W, H)
 
-    // dotted land
+    // dotted land — brighter dots on the dark theme
+    const dotRgb = dark ? '120,200,240' : '27,117,183'
     const step = 7
     for (let y = step / 2; y < H; y += step) {
       for (let x = step / 2; x < W; x += step) {
         if (data[(Math.round(y) * W + Math.round(x)) * 4 + 3] > 128) {
           const d = Math.hypot(x - W / 2, y - H / 2) / (W / 2)
-          ctx.fillStyle = `rgba(27,117,183,${Math.max(0.14, 0.5 - d * 0.34).toFixed(3)})`
+          ctx.fillStyle = `rgba(${dotRgb},${Math.max(0.14, 0.5 - d * 0.34).toFixed(3)})`
           ctx.beginPath()
           ctx.arc(x, y, 1.5, 0, Math.PI * 2)
           ctx.fill()
@@ -74,8 +76,8 @@ export default function RegionMap({ t }) {
       const mx = (hx + px) / 2
       const my = Math.min(hy, py) - Math.hypot(px - hx, py - hy) * 0.22
       const grad = ctx.createLinearGradient(hx, hy, px, py)
-      grad.addColorStop(0, 'rgba(0,28,65,.75)')
-      grad.addColorStop(1, 'rgba(70,189,235,.35)')
+      grad.addColorStop(0, dark ? 'rgba(142,216,248,.85)' : 'rgba(0,28,65,.75)')
+      grad.addColorStop(1, dark ? 'rgba(70,189,235,.3)' : 'rgba(70,189,235,.35)')
       ctx.strokeStyle = grad
       ctx.lineWidth = 1.4
       ctx.beginPath()
@@ -89,7 +91,7 @@ export default function RegionMap({ t }) {
       const [x, y] = proj([p.lon, p.lat])
       return { ...p, left: (x / W) * 100, top: (y / H) * 100 }
     }))
-  }, [])
+  }, [dark])
 
   return (
     <div className="map-section">

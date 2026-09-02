@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-export default function Nav({ t, lang, setLang, route }) {
+export default function Nav({ t, lang, setLang, route, theme, setTheme }) {
   const [open, setOpen] = useState(false)       // products dropdown
   const [mobile, setMobile] = useState(false)   // hamburger menu
   const dropRef = useRef(null)
@@ -24,7 +24,11 @@ export default function Nav({ t, lang, setLang, route }) {
     <>
       <nav className="nav">
         <a href="#/" aria-label="FMP Technology Services" onClick={closeAll}>
-          <img src="assets/fmp-logo.svg" alt="FMP Technology Services" className="nav-logo" />
+          <img
+            src={theme === 'dark' ? 'assets/fmp-logo-white.svg' : 'assets/fmp-logo.svg'}
+            alt="FMP Technology Services"
+            className="nav-logo"
+          />
         </a>
         <div className="nav-links">
           <a href="#/" className={is('home')} onClick={closeAll}>{t.navHome}</a>
@@ -57,6 +61,14 @@ export default function Nav({ t, lang, setLang, route }) {
           <a href="#/contacto" className={is('contacto')} onClick={closeAll}>{t.navContact}</a>
         </div>
         <div className="nav-right">
+          <button
+            type="button"
+            className="theme-toggle"
+            aria-label="Theme"
+            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+          >
+            {theme === 'light' ? '☾' : '☀'}
+          </button>
           <div className="lang-toggle">
             <button className={lang === 'es' ? 'on' : ''} onClick={() => setLang('es')}>ES</button>
             <button className={lang === 'en' ? 'on' : ''} onClick={() => setLang('en')}>EN</button>

@@ -1,6 +1,14 @@
 import { useRef } from 'react'
 import { useReveal } from '../hooks.js'
 
+/* Renders either an image icon (asset path) or a plain glyph. */
+export function Ico({ icon }) {
+  if (typeof icon === 'string' && icon.startsWith('assets/')) {
+    return <img src={icon} alt="" loading="lazy" />
+  }
+  return <>{icon}</>
+}
+
 export function Reveal({ children, className = '' }) {
   const ref = useReveal()
   return <div ref={ref} className={`reveal ${className}`}>{children}</div>

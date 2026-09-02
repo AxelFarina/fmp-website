@@ -23,7 +23,7 @@ export default function Products({ t, lang }) {
           return (
             <div key={cat} style={{ marginBottom: 46 }}>
               <Reveal>
-                <div className="mono" style={{ fontSize: 15, letterSpacing: 3, color: '#1B75B7', margin: '0 0 18px' }}>
+                <div className="mono" style={{ fontSize: 15, letterSpacing: 3, color: 'var(--acc)', margin: '0 0 18px' }}>
                   {productCats[lang][cat].toUpperCase()}
                 </div>
               </Reveal>
@@ -33,9 +33,9 @@ export default function Products({ t, lang }) {
                     <a href={`#/productos/${slug}`} className="card" style={{ display: 'block', height: '100%', padding: 0, overflow: 'hidden' }}>
                       <div style={{ position: 'relative', height: 150, overflow: 'hidden' }}>
                         <img src={pr.img} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'saturate(.85)' }} />
-                        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 45%, #fff)' }} />
+                        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 45%, var(--card))' }} />
                         {pr.logo && (
-                          <img src={pr.logo} alt="" style={{ position: 'absolute', left: 22, bottom: 12, height: 40, objectFit: 'contain', filter: 'drop-shadow(0 2px 8px rgba(0,0,0,.6))' }} />
+                          <img src={pr.logo} alt="" style={{ position: 'absolute', left: 22, bottom: 12, height: 42, objectFit: 'contain', background: '#fff', borderRadius: 10, padding: '4px 8px', boxShadow: '0 4px 14px rgba(0,0,0,.18)' }} />
                         )}
                       </div>
                       <div style={{ padding: '18px 24px 26px' }}>
