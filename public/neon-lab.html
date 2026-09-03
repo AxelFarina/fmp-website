@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FMP · Neon Light Flow</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #03070D; overflow: hidden; }
+  .stage { position: relative; width: 100vw; height: 100vh; overflow: hidden; background: linear-gradient(160deg, #071021 0%, #040911 55%, #010409 100%); }
+  canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+  /* hero mock opcional para ver el fondo en contexto */
+  .hero-mock {
+    position: absolute; inset: 0; z-index: 5; display: none; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center; padding: 24px;
+    font-family: 'Archivo', sans-serif; pointer-events: none;
+  }
+  .hero-mock.on { display: flex; }
+  .badge {
+    display: inline-flex; gap: 8px; background: rgba(4,14,26,.7); backdrop-filter: blur(8px);
+    border: 1px solid rgba(70,189,235,.35); border-radius: 999px; padding: 7px 16px;
+    font-size: 13px; color: rgba(226,244,255,.9); margin-bottom: 24px;
+  }
+  .hero-mock h1 { font-weight: 600; font-size: clamp(34px, 4.5vw, 60px); letter-spacing: -2px; margin: 0 0 18px; color: #F4FBFF; max-width: 800px; text-shadow: 0 2px 30px rgba(3,7,13,.8); }
+  .grad { background: linear-gradient(90deg, #46BDEB, #C7F0FF); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .sub { font-size: 16px; line-height: 1.65; color: rgba(214,236,250,.75); max-width: 540px; margin: 0 0 30px; text-shadow: 0 1px 16px rgba(3,7,13,.8); }
+  .btns { display: flex; gap: 12px; }
+  .b1 { padding: 13px 26px; border-radius: 999px; background: linear-gradient(135deg,#1B75B7,#46BDEB); color: #fff; font-size: 14px; font-weight: 600; box-shadow: 0 0 34px rgba(70,189,235,.5); }
+  .b2 { padding: 13px 26px; border-radius: 999px; background: rgba(4,14,26,.6); border: 1px solid rgba(70,189,235,.4); color: #D6ECFA; font-size: 14px; font-weight: 500; }
+
+  .panel {
+    position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 10;
+    display: flex; gap: 18px; align-items: center; flex-wrap: wrap; justify-content: center;
+    background: rgba(3,10,18,.88); backdrop-filter: blur(10px); border: 1px solid rgba(70,189,235,.25);
+    border-radius: 16px; padding: 12px 20px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 1px; color: rgba(199,240,255,.75);
+  }
+  .panel label { display: flex; align-items: center; gap: 8px; text-transform: uppercase; }
+  .panel input[type=range] { width: 90px; accent-color: #46BDEB; }
+  .panel button {
+    border: 1px solid rgba(70,189,235,.4); background: transparent; color: #7FD9FF; cursor: pointer;
+    border-radius: 999px; padding: 7px 14px; font-family: inherit; font-size: 10.5px; letter-spacing: 1px;
+  }
+  .panel button:hover { color: #C7F0FF; border-color: #C7F0FF; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <canvas id="cv"></canvas>
+    <div class="hero-mock" id="hero">
+      <div class="badge">✦ Partner Oficial de SAP · República Dominicana</div>
+      <h1>Da el paso hacia el éxito <span class="grad">con FMP y SAP.</span></h1>
+      <p class="sub">En FMP estamos comprometidos con ayudarte a alcanzar tus objetivos a través de la implementación de soluciones SAP de vanguardia.</p>
+      <div class="btns"><span class="b1">Agenda tu cita</span><span class="b2">Ver productos</span></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <label>Glow <input type="range" id="glow" min="0.5" max="2" step="0.1" value="1.2"></label>
+    <label>Cálido <input type="range" id="warm" min="0" max="0.7" step="0.05" value="0.35"></label>
+    <label>Velocidad <input type="range" id="speed" min="0.3" max="2.5" step="0.1" value="1"></label>
+    <button onclick="document.getElementById('hero').classList.toggle('on')">Ver con texto</button>
+  </div>
+
+<script>
+/* Port fiel de "FMP Neon Background.dc.html" (Claude Design) a JS vanilla. */
+(function () {
+  const canvas = document.getElementById('cv')
+  const props = {
+    get glowIntensity() { return parseFloat(document.getElementById('glow').value) },
+    get warmRatio() { return parseFloat(document.getElementById('warm').value) },
+    get speed() { return parseFloat(document.getElementById('speed').value) },
+  }
+
+  const ctx = canvas.getContext('2d')
+  const t0 = performance.now()
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches
+  let dpr, off, offCtx, offS, sheets
+
+  function resize() {
+    dpr = Math.min(devicePixelRatio || 1, 1.5)
+    canvas.width = innerWidth * dpr
+    canvas.height = innerHeight * dpr
+    const S = 0.8
+    off = off || document.createElement('canvas')
+    off.width = Math.ceil(innerWidth * S)
+    off.height = Math.ceil(innerHeight * S)
+    offCtx = off.getContext('2d')
+    offS = S
+    buildSheets(innerWidth, innerHeight)
+  }
+
+  function buildSheets(vw, vh) {
+    let seed = 1907
+    const rng = () => { seed |= 0; seed = (seed + 0x6D2B79F5) | 0; let x = Math.imul(seed ^ (seed >>> 15), 1 | seed); x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x; return ((x ^ (x >>> 14)) >>> 0) / 4294967296 }
+    const layers = [
+      { z: 0.12, n: 5, th: [70, 130], al: [0.18, 0.28] },
+      { z: 0.5, n: 4, th: [130, 230], al: [0.22, 0.34] },
+      { z: 0.95, n: 3, th: [230, 380], al: [0.26, 0.4] },
+    ]
+    sheets = []
+    for (const L of layers) {
+      for (let i = 0; i < L.n; i++) {
+        const s = {
+          z: L.z,
+          len: vw * (1.5 + rng() * 1.0),
+          th: L.th[0] + rng() * (L.th[1] - L.th[0]),
+          alpha: L.al[0] + rng() * (L.al[1] - L.al[0]),
+          speed: (0.7 + L.z * 1.5) * (0.85 + rng() * 0.3),
+          startOff: rng(),
+          baseY: -0.05 + rng() * 0.9,
+          angle: -(0.02 + rng() * 0.18),
+          taper: 0.32 + rng() * 0.36,
+          kw: 0.8 + rng() * 1.4, phw: rng() * 6.28,
+          k2: 2 + rng() * 2, ph2: rng() * 6.28,
+          breathe: rng() * 6.28,
+          warmKey: rng(), hueKey: rng(),
+        }
+        s.spC = makeSprite(s, 'cool')
+        s.spW = makeSprite(s, 'warm')
+        sheets.push(s)
+      }
+    }
+    sheets.sort((a, b) => a.z - b.z)
+  }
+
+  function makeSprite(s, kind) {
+    const pals = kind === 'warm'
+      ? [{ b: [214, 96, 22], h: [255, 158, 58], c: [255, 240, 214] }, { b: [198, 58, 28], h: [255, 118, 48], c: [255, 226, 198] }, { b: [226, 128, 30], h: [255, 196, 92], c: [255, 246, 222] }]
+      : [{ b: [26, 130, 212], h: [70, 195, 255], c: [212, 244, 255] }, { b: [18, 98, 188], h: [56, 176, 244], c: [186, 233, 255] }, { b: [34, 150, 226], h: [118, 216, 255], c: [226, 249, 255] }]
+    const pal = pals[Math.floor(s.hueKey * pals.length)]
+    const W = 640, H = 160, cols = 160, cw = W / cols
+    const c = document.createElement('canvas'); c.width = W; c.height = H
+    const x = c.getContext('2d')
+    const ss = (v) => { const q = Math.max(0, Math.min(1, v)); return q * q * (3 - 2 * q) }
+    const rgba = (col, a) => `rgba(${col[0]},${col[1]},${col[2]},${a})`
+    for (let pass = 0; pass < 2; pass++) {
+      for (let i = 0; i < cols; i++) {
+        const u = i / (cols - 1)
+        const ef = ss(u / 0.14) * ss((1 - u) / 0.14)
+        if (ef <= 0.01) continue
+        const taperF = 1 - (1 - s.taper) * u
+        const cy = H / 2 + Math.sin(u * Math.PI * s.kw + s.phw) * H * 0.10
+        if (pass === 0) {
+          const hh = H * 0.40 * taperF
+          const g = x.createLinearGradient(0, cy - hh, 0, cy + hh)
+          g.addColorStop(0, rgba(pal.b, 0))
+          g.addColorStop(0.2, rgba(pal.b, 0.4 * ef))
+          g.addColorStop(0.5, rgba(pal.h, 0.72 * ef))
+          g.addColorStop(0.8, rgba(pal.b, 0.4 * ef))
+          g.addColorStop(1, rgba(pal.b, 0))
+          x.fillStyle = g
+          x.fillRect(i * cw, cy - hh, cw + 1, hh * 2)
+        } else {
+          const hh = H * 0.40 * taperF * 0.2
+          const cy2 = cy + Math.sin(u * Math.PI * s.k2 + s.ph2) * H * 0.05
+          const g = x.createLinearGradient(0, cy2 - hh, 0, cy2 + hh)
+          g.addColorStop(0, rgba(pal.c, 0))
+          g.addColorStop(0.5, rgba(pal.c, 0.95 * ef))
+          g.addColorStop(1, rgba(pal.c, 0))
+          x.fillStyle = g
+          x.fillRect(i * cw, cy2 - hh, cw + 1, hh * 2)
+        }
+      }
+    }
+    const b = document.createElement('canvas'); b.width = W; b.height = H
+    const bx = b.getContext('2d')
+    bx.filter = 'blur(2px)'
+    bx.drawImage(c, 0, 0)
+    return b
+  }
+
+  function tick(now) {
+    requestAnimationFrame(tick)
+    const glow = props.glowIntensity
+    const warmRatio = props.warmRatio
+    const speed = props.speed
+    const vw = innerWidth, vh = innerHeight
+    const t = (now - t0) / 1000
+
+    if (vw > 0 && (canvas.width !== Math.floor(vw * dpr) || canvas.height !== Math.floor(vh * dpr))) { resize(); return }
+    if (!canvas.width) return
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    ctx.clearRect(0, 0, vw, vh)
+    drawSheets(t, vw, vh, glow, warmRatio, speed)
+    ctx.drawImage(off, 0, 0, vw, vh)
+
+    const vg = ctx.createRadialGradient(vw / 2, vh / 2, Math.min(vw, vh) * 0.4, vw / 2, vh / 2, Math.max(vw, vh) * 0.78)
+    vg.addColorStop(0, 'rgba(1,4,9,0)')
+    vg.addColorStop(1, 'rgba(1,4,9,0.45)')
+    ctx.fillStyle = vg
+    ctx.fillRect(0, 0, vw, vh)
+  }
+
+  function drawSheets(t, vw, vh, glow, warmRatio, speed) {
+    if (!sheets || !offCtx) return
+    const ctx2 = offCtx
+    ctx2.setTransform(offS, 0, 0, offS, 0, 0)
+    ctx2.clearRect(0, 0, vw, vh)
+    const fade = reduced ? 1 : Math.min(1, t / 1.6)
+    const gb = Math.min(1.7, glow)
+    const drift = reduced ? 0 : 1
+    ctx2.save()
+    ctx2.translate(vw * 0.5, vh * 0.45)
+    ctx2.rotate(-0.025 + Math.sin(t * 0.04) * 0.02 * drift)
+    const zoom = 1.02 + Math.sin(t * 0.03) * 0.015 * drift
+    ctx2.scale(zoom, zoom)
+    ctx2.translate(-vw * 0.5, -vh * 0.45)
+    ctx2.globalCompositeOperation = 'lighter'
+    for (const s of sheets) {
+      const sprite = s.warmKey < warmRatio ? s.spW : s.spC
+      const k = (reduced ? 0 : t * 0.045 * speed) * s.speed + s.startOff
+      const u = k - Math.floor(k)
+      const L = s.len
+      const cx = (vw + L * 0.55) - u * (vw + L * 1.1)
+      if (cx + L * 0.55 < -vw * 0.1 || cx - L * 0.55 > vw * 1.1) continue
+      const cy = s.baseY * vh + (u - 0.35) * vh * (0.2 + s.z * 0.3)
+      const near = s.z > 0.7
+      const syc = reduced ? 1 : 1 + Math.sin(t * 0.25 + s.breathe) * 0.035
+      const T = s.th * syc
+      const a = s.alpha * fade * gb
+      ctx2.save()
+      ctx2.translate(cx, cy)
+      ctx2.rotate(s.angle)
+      ctx2.globalAlpha = a
+      ctx2.drawImage(sprite, -L / 2, -T / 2, L, T)
+      if (near && !reduced) {
+        ctx2.globalAlpha = a * 0.4
+        ctx2.drawImage(sprite, -L / 2 - 24, -T / 2 + 7, L, T)
+      }
+      ctx2.restore()
+    }
+    ctx2.globalCompositeOperation = 'source-over'
+    ctx2.globalAlpha = 1
+    ctx2.restore()
+  }
+
+  addEventListener('resize', resize)
+  resize()
+  requestAnimationFrame(tick)
+})()
+</script>
+</body>
+</html>
