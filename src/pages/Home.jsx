@@ -1,6 +1,6 @@
 import RegionMap from '../components/RegionMap.jsx'
 import ContactCta from '../components/ContactCta.jsx'
-import { Reveal, SpotCard, Ico } from '../components/ui.jsx'
+import { Reveal, SpotCard, Ico, Counter } from '../components/ui.jsx'
 import { industriesFor } from '../i18n.js'
 import { products } from '../content/products.js'
 
@@ -28,7 +28,7 @@ export default function Home({ t, lang, theme }) {
         <div className="hero-grid">
           <div>
             <div className="hero-badge" data-intro>
-              <span className="accent">✦</span> {h.badge}
+              <img src="assets/sap.svg" alt="SAP" style={{ height: 17, width: 'auto' }} /> {h.badge}
             </div>
             <h1 data-intro>
               {h.title1} <span className="grad-text">{h.title2}</span>
@@ -45,7 +45,7 @@ export default function Home({ t, lang, theme }) {
                 { num: h.statServices, lbl: h.statServicesLbl },
               ].map((s) => (
                 <div key={s.lbl} className="hstat">
-                  <div className="hstat-num">{s.num}</div>
+                  <div className="hstat-num"><Counter value={s.num} /></div>
                   <div className="hstat-lbl">{s.lbl}</div>
                 </div>
               ))}
@@ -101,8 +101,40 @@ export default function Home({ t, lang, theme }) {
         </div>
       </header>
 
+      {/* experience + partnership showcase */}
+      <div className="section" style={{ paddingTop: 60, paddingBottom: 40 }}>
+        <Reveal>
+          <div className="exp-block">
+            <div className="exp-left">
+              <div className="exp-num"><Counter value="25" duration={2000} /><span className="exp-plus">+</span></div>
+              <div className="exp-num-lbl">{h.exp.bigLabel}</div>
+            </div>
+            <div className="exp-right">
+              <div className="kicker" style={{ marginBottom: 14 }}>{h.exp.kicker}</div>
+              <h2 className="exp-title">{h.exp.title}</h2>
+              <p className="exp-text">{h.exp.text}</p>
+              <div className="exp-claim">
+                <img src="assets/sap.svg" alt="SAP" />
+                <span>{h.exp.claim}</span>
+              </div>
+              <div className="exp-minis">
+                <div className="exp-mini">
+                  <span className="exp-mini-num"><Counter value="+200" /></span>
+                  <span className="exp-mini-lbl">{h.exp.miniClients}</span>
+                </div>
+                <div className="exp-mini">
+                  <span className="exp-mini-num"><Counter value="+9000" /></span>
+                  <span className="exp-mini-lbl">{h.exp.miniServices}</span>
+                </div>
+                <img src="assets/img/sap-partner-badge.jpg" alt="SAP Partner" className="exp-badge" />
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+
       {/* SAP partner benefits */}
-      <div className="section" style={{ paddingTop: 50 }}>
+      <div className="section" style={{ paddingTop: 30 }}>
         <div className="bento-top" style={{ alignItems: 'stretch' }}>
           <Reveal>
             <SpotCard className="card card-lg" style={{ height: '100%' }}>

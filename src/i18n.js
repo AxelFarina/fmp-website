@@ -47,6 +47,7 @@ export const dict = {
     navContact: 'Contáctanos',
     navCta: 'Agenda tu cita',
     prodMenu: prodMenu('es'),
+    ribbon: ['Partner Oficial de SAP', '+25 años de experiencia', '+9,000 servicios entregados'],
 
     footBlurb: 'Somos Partner de SAP y actualmente el Partner que más addons o verticales ofrece en su portafolio de productos para complementar el 360 de los procesos de negocios en diferentes sectores e industrias.',
     colCompany: 'EMPRESA',
@@ -74,7 +75,16 @@ export const dict = {
 
     // ---------- home ----------
     home: {
-      badge: 'SAP Partner · República Dominicana',
+      badge: 'Partner Oficial de SAP · República Dominicana',
+      exp: {
+        kicker: 'EXPERIENCIA · PARTNERSHIP',
+        title: 'Un cuarto de siglo implementando SAP',
+        bigLabel: 'años de experiencia',
+        text: 'Como Partner de SAP, nos enorgullece ser reconocidos por nuestra excelencia en la prestación de servicios. Nuestra sólida presencia en la República Dominicana y en otros países de la región respalda nuestro compromiso con la calidad y la rentabilidad de nuestros clientes.',
+        claim: 'El Partner de SAP con más add-ons y verticales en su portafolio.',
+        miniClients: 'empresas conformes',
+        miniServices: 'servicios brindados',
+      },
       title1: 'Da el paso hacia el éxito',
       title2: 'con FMP y SAP.',
       sub: 'En FMP estamos comprometidos con ayudarte a alcanzar tus objetivos a través de la implementación de soluciones SAP de vanguardia. Con nuestra experiencia impulsamos el crecimiento e innovación en tu empresa.',
@@ -383,6 +393,7 @@ export const dict = {
     navContact: 'Contact us',
     navCta: 'Book a meeting',
     prodMenu: prodMenu('en'),
+    ribbon: ['Official SAP Partner', '+25 years of experience', '+9,000 services delivered'],
 
     footBlurb: 'We are an SAP Partner — currently the Partner offering the most add-ons and verticals in its product portfolio, complementing the full 360 of business processes across different sectors and industries.',
     colCompany: 'COMPANY',
@@ -410,7 +421,16 @@ export const dict = {
 
     // ---------- home ----------
     home: {
-      badge: 'SAP Partner · Dominican Republic',
+      badge: 'Official SAP Partner · Dominican Republic',
+      exp: {
+        kicker: 'EXPERIENCE · PARTNERSHIP',
+        title: 'A quarter century implementing SAP',
+        bigLabel: 'years of experience',
+        text: 'As an SAP Partner, we are proud to be recognized for our service excellence. Our strong presence in the Dominican Republic and other countries in the region underscores our commitment to quality and profitability for our clients.',
+        claim: 'The SAP Partner with the most add-ons and verticals in its portfolio.',
+        miniClients: 'satisfied companies',
+        miniServices: 'services provided',
+      },
       title1: 'Take the step towards success',
       title2: 'with FMP and SAP.',
       sub: 'At FMP, we are committed to helping you achieve your goals through the implementation of cutting-edge SAP solutions. With our experience, we drive growth and innovation in your company.',

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import ContactCta from '../components/ContactCta.jsx'
-import { Reveal, SpotCard } from '../components/ui.jsx'
+import { Reveal, SpotCard, Counter } from '../components/ui.jsx'
 import { industriesFor } from '../i18n.js'
 
 /* Interactive: tap government processes on the left, watch them slot into the SAP board. */
@@ -86,7 +86,7 @@ export default function About({ t, lang }) {
           ].map((s) => (
             <Reveal key={s.lbl}>
               <div className="stat-card">
-                <div className="stat-num">{s.num}</div>
+                <div className="stat-num"><Counter value={s.num} /></div>
                 <div className="stat-label">{s.lbl}</div>
               </div>
             </Reveal>

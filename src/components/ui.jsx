@@ -1,5 +1,36 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useReveal } from '../hooks.js'
+
+/* Counts up from 0 when scrolled into view. Parses "+9000" style strings. */
+export function Counter({ value, duration = 1600 }) {
+  const ref = useRef(null)
+  const [display, setDisplay] = useState(value)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const target = parseInt(String(value).replace(/[^\d]/g, ''), 10)
+    if (!target || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const prefix = String(value).match(/^[^\d]*/)[0]
+    setDisplay(prefix + '0')
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return
+        io.disconnect()
+        const t0 = performance.now()
+        const tick = (now) => {
+          const p = Math.min(1, (now - t0) / duration)
+          const eased = 1 - Math.pow(1 - p, 3)
+          setDisplay(prefix + Math.round(target * eased).toLocaleString('en-US'))
+          if (p < 1) requestAnimationFrame(tick)
+        }
+        requestAnimationFrame(tick)
+      })
+    }, { threshold: 0.4 })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [value, duration])
+  return <span ref={ref}>{display}</span>
+}
 
 /* Renders either an image icon (asset path) or a plain glyph. */
 export function Ico({ icon }) {

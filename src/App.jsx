@@ -93,6 +93,14 @@ export default function App() {
   return (
     <>
       {showSplash && route.page === 'home' && <Splash />}
+      <div className="ribbon">
+        {t.ribbon.map((part, i) => (
+          <span key={part}>
+            {i > 0 && <span className="ribbon-dot">✦</span>}
+            <span className={i === 0 ? 'ribbon-strong' : ''}>{part}</span>
+          </span>
+        ))}
+      </div>
       <Nav t={t} lang={lang} setLang={setLang} route={route} theme={theme} setTheme={setTheme} />
       {page}
       <Footer t={t} />
