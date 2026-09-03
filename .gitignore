@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# local AI tooling (UI UX Pro Max skill data)
+.claude/skills/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

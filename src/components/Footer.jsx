@@ -70,6 +70,7 @@ export default function Footer({ t }) {
               <a href="mailto:comercial@fmp.com.do">comercial@fmp.com.do</a>
               <span>{t.footLocation}</span>
             </div>
+            <img src="assets/img/sap-partner.png" alt="SAP Partner" className="footer-sap-badge" />
           </div>
         </div>
 

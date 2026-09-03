@@ -23,13 +23,17 @@ export default function Nav({ t, lang, setLang, route, theme, setTheme }) {
   return (
     <>
       <nav className="nav">
-        <a href="#/" aria-label="FMP Technology Services" onClick={closeAll}>
-          <img
-            src={theme === 'dark' ? 'assets/fmp-logo-white.svg' : 'assets/fmp-logo.svg'}
-            alt="FMP Technology Services"
-            className="nav-logo"
-          />
-        </a>
+        <div className="nav-brand">
+          <a href="#/" aria-label="FMP Technology Services" onClick={closeAll}>
+            <img
+              src={theme === 'dark' ? 'assets/fmp-logo-white.svg' : 'assets/fmp-logo.svg'}
+              alt="FMP Technology Services"
+              className="nav-logo"
+            />
+          </a>
+          <span className="nav-brand-sep" />
+          <img src="assets/img/sap-partner.png" alt="SAP Partner" className="nav-sap-badge" />
+        </div>
         <div className="nav-links">
           <a href="#/" className={is('home')} onClick={closeAll}>{t.navHome}</a>
           <a href="#/nosotros" className={is('nosotros')} onClick={closeAll}>{t.navAbout}</a>

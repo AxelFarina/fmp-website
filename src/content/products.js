@@ -53,8 +53,8 @@ export const products = {
   'sap-business-one': {
     cat: 'erp',
     img: 'assets/img/sap-business-one.jpg',
-    logo: 'assets/img/sapb1-logo.png',
-    badge: 'assets/img/sap-partner-badge.jpg',
+    logo: 'assets/img/sapb1-logo.svg',
+    badge: 'assets/img/sap-partner.png',
     es: {
       name: 'SAP Business One',
       tagline: 'El ERP para pequeñas y medianas empresas',

@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FMP · Disco Tron + Trail Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Archivo', sans-serif; background: #fff; color: #0F2A44; transition: background .4s ease; }
+  body.dark { background: #050D18; color: #E8F1F8; }
+
+  /* fondo fijo: toda la animación vive aquí, detrás del contenido */
+  #bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+  /* el holograma FMP 3D (DOM para poder inclinarlo con el mouse) */
+  #holo {
+    position: fixed; z-index: 1; width: 120px; height: 120px; pointer-events: none;
+    transform-style: preserve-3d; will-change: transform, opacity;
+    filter: drop-shadow(0 0 24px rgba(70,189,235,.8));
+  }
+  #holo img { width: 100%; height: 100%; object-fit: contain; }
+
+  .content { position: relative; z-index: 2; }
+
+  /* hero = igual a la página actual */
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 8vw; max-width: 760px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px; align-self: flex-start;
+    background: rgba(255,255,255,.85); border: 1px solid rgba(27,117,183,.3); border-radius: 999px;
+    padding: 7px 16px; font-size: 13px; box-shadow: 0 6px 18px rgba(11,42,74,.06); margin-bottom: 24px;
+  }
+  body.dark .badge { background: rgba(10,26,44,.85); border-color: rgba(70,189,235,.35); }
+  h1 { font-weight: 600; font-size: clamp(34px, 4.2vw, 58px); letter-spacing: -2px; margin: 0 0 16px; }
+  .grad { background: linear-gradient(90deg, #1B75B7, #46BDEB); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  body.dark .grad { background: linear-gradient(90deg, #46BDEB, #9FE4FF); -webkit-background-clip: text; background-clip: text; }
+  .sub { font-size: 16px; line-height: 1.65; opacity: .65; max-width: 480px; margin: 0 0 30px; }
+  .btns { display: flex; gap: 12px; }
+  .b1 { padding: 13px 26px; border-radius: 999px; background: linear-gradient(135deg,#1B75B7,#46BDEB); color: #fff; font-size: 14px; font-weight: 600; box-shadow: 0 10px 30px rgba(27,117,183,.35); }
+  .b2 { padding: 13px 26px; border-radius: 999px; background: transparent; border: 1px solid rgba(27,117,183,.35); font-size: 14px; font-weight: 500; }
+
+  /* secciones mock para dar scroll — tarjetas translúcidas para ver el trail detrás */
+  .sec { min-height: 90vh; display: flex; align-items: center; justify-content: center; padding: 60px 8vw; }
+  .card {
+    max-width: 640px; padding: 40px; border-radius: 22px;
+    background: rgba(255,255,255,.78); backdrop-filter: blur(8px);
+    border: 1px solid rgba(11,42,74,.1); box-shadow: 0 20px 50px rgba(11,42,74,.08);
+  }
+  body.dark .card { background: rgba(8,20,36,.72); border-color: rgba(70,189,235,.18); }
+  .card h2 { margin: 0 0 12px; font-size: 28px; letter-spacing: -1px; }
+  .card p { margin: 0; font-size: 15px; line-height: 1.7; opacity: .65; }
+
+  .toggle {
+    position: fixed; right: 22px; top: 22px; z-index: 10;
+    border: 1px solid rgba(27,117,183,.4); background: rgba(255,255,255,.9); color: #1B75B7;
+    border-radius: 999px; padding: 10px 20px; font-family: 'Archivo'; font-weight: 600; font-size: 13px; cursor: pointer;
+  }
+  body.dark .toggle { background: rgba(8,20,36,.9); color: #9FE4FF; }
+  .hint { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 10; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; opacity: .5; }
+</style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <div id="holo"><img src="assets/fmp-mark.svg" alt="FMP" /></div>
+  <button class="toggle" onclick="document.body.classList.toggle('dark')">Claro / Oscuro</button>
+  <div class="hint">SCROLL · EL DISCO CARGA Y DISPARA EL TRAIL</div>
+
+  <div class="content">
+    <section class="hero">
+      <div class="badge">✦ Partner Oficial de SAP · República Dominicana</div>
+      <h1>Da el paso hacia el éxito <span class="grad">con FMP y SAP.</span></h1>
+      <p class="sub">La página es la misma — pero detrás, el disco de identidad FMP se carga y lanza su estela de luz que recorre el fondo mientras bajas.</p>
+      <div class="btns"><span class="b1">Agenda tu cita</span><span class="b2">Ver productos</span></div>
+    </section>
+
+    <section class="sec"><div class="card"><h2>Beneficios de un Partner SAP</h2><p>El trail pasa por detrás de las tarjetas — el contenido sigue siendo el protagonista, la luz solo acompaña el viaje del scroll. Mueve el mouse sobre el hero para girar el holograma FMP en 3D.</p></div></section>
+    <section class="sec"><div class="card"><h2>+25 años · +500 empresas</h2><p>Cada vuelta del trail marca un capítulo. La estela deja su muro de luz translúcido como las motos de Tron, y se desvanece lentamente detrás del contenido.</p></div></section>
+    <section class="sec"><div class="card"><h2>Nuestros servicios</h2><p>Sube y baja: el scroll controla la estela en ambas direcciones. Al retroceder, la luz se repliega.</p></div></section>
+    <section class="sec"><div class="card"><h2>¿Listo para empezar?</h2><p>Fin del recorrido — la estela completa su circuito y queda brillando suave en el fondo.</p></div></section>
+  </div>
+
+<script>
+const cv = document.getElementById('bg')
+const ctx = cv.getContext('2d')
+const holo = document.getElementById('holo')
+const fit = () => { cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio }
+fit(); addEventListener('resize', fit)
+const W = () => innerWidth, H = () => innerHeight
+const mouse = { x: -1, y: -1 }
+addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY })
+
+const isDark = () => document.body.classList.contains('dark')
+
+/* progreso de scroll de toda la página (0..1) */
+const prog = () => {
+  const total = document.body.scrollHeight - innerHeight
+  return Math.max(0, Math.min(1, scrollY / total))
+}
+
+/* el disco vive a la derecha del hero */
+const disc = () => ({ x: W() * .74, y: H() * .46, r: Math.min(W(), H()) * .21 })
+
+/* ---- trail serpenteante en coordenadas de viewport (fondo fijo) ----
+   sale del disco → izquierda, baja, → derecha, baja, → izquierda ... como el muro de una moto de luz */
+function trailPath() {
+  const d = disc()
+  const rows = [d.y, H() * .78, H() * .3, H() * .62, H() * .16, H() * .84]
+  const pts = [[d.x - d.r - 14, d.y]]
+  let dir = -1 // hacia la izquierda primero
+  for (let i = 0; i < rows.length - 1; i++) {
+    const xEnd = dir < 0 ? W() * .06 : W() * .94
+    pts.push([xEnd, rows[i]])
+    pts.push([xEnd, rows[i + 1]])
+    dir *= -1
+  }
+  pts.push([dir < 0 ? W() * .06 : W() * .94, rows[rows.length - 1]])
+  return pts
+}
+
+function draw() {
+  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0)
+  ctx.clearRect(0, 0, W(), H())
+  const p = prog()
+  const t = performance.now() / 1000
+  const d = disc()
+  const dark = isDark()
+  const CHARGE_END = .1
+  // el disco se carga solo al entrar (2.4s) — el scroll puede acelerarlo y luego dispara el trail
+  const timeCharge = Math.min(1, t / 2.4)
+  const charge = Math.max(timeCharge, Math.min(1, p / CHARGE_END))
+  const discFade = Math.max(0, 1 - Math.max(0, (p - .16) / .12))
+
+  /* ---------- DISCO DE IDENTIDAD ---------- */
+  if (discFade > 0) {
+    ctx.save()
+    ctx.globalAlpha = discFade
+    // aro exterior oscuro (el cuerpo del disco)
+    ctx.lineWidth = d.r * .16
+    ctx.strokeStyle = dark ? 'rgba(10,26,44,.9)' : 'rgba(15,42,68,.12)'
+    ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, 7); ctx.stroke()
+    // anillo de energía: se CARGA con el scroll (arcos que se van completando)
+    const segs = 4
+    for (let s = 0; s < segs; s++) {
+      const a0 = -Math.PI / 2 + s * (Math.PI * 2 / segs) + .12
+      const span = (Math.PI * 2 / segs - .24) * Math.min(1, Math.max(0, charge * segs - s))
+      if (span <= 0) continue
+      ctx.lineWidth = d.r * .1
+      ctx.strokeStyle = `rgba(159,228,255,${.85 * discFade})`
+      ctx.shadowColor = 'rgba(70,189,235,1)'
+      ctx.shadowBlur = 26 * charge
+      ctx.beginPath(); ctx.arc(d.x, d.y, d.r, a0, a0 + span); ctx.stroke()
+      ctx.shadowBlur = 0
+    }
+    // pulso interior al completar la carga
+    if (charge >= 1) {
+      const pulse = (Math.sin(t * 3) + 1) / 2
+      ctx.strokeStyle = `rgba(70,189,235,${(.25 + pulse * .3) * discFade})`
+      ctx.lineWidth = 2
+      ctx.beginPath(); ctx.arc(d.x, d.y, d.r * (0.82 + pulse * .04), 0, 7); ctx.stroke()
+    }
+    // holograma de partículas dentro del disco (como la cara del disco de Tron)
+    const inner = d.r * .68
+    for (let i = 0; i < 150; i++) {
+      const seed = i * 137.5
+      const rr = inner * Math.sqrt(((seed * 7.3) % 100) / 100)
+      const aa = (seed % 360) * Math.PI / 180 + t * .12
+      const x = d.x + Math.cos(aa) * rr
+      const y = d.y + Math.sin(aa) * rr * .92
+      const tw = (Math.sin(t * 2.2 + i) + 1) / 2
+      ctx.fillStyle = `rgba(${dark ? '159,228,255' : '27,117,183'},${((.1 + tw * .4) * charge * discFade).toFixed(3)})`
+      ctx.fillRect(x, y, 1.5, 1.5)
+    }
+    ctx.restore()
+  }
+
+  /* ---------- TRAIL DE LUZ (muro de moto) ---------- */
+  const pts = trailPath()
+  let total = 0
+  const lens = []
+  for (let i = 1; i < pts.length; i++) {
+    const l = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1])
+    lens.push(l); total += l
+  }
+  const reveal = Math.max(0, (p - CHARGE_END) / (1 - CHARGE_END)) * total
+  const core = dark ? '199,240,255' : '70,189,235'
+  const wallC = dark ? '70,189,235' : '27,144,255'
+  let acc = 0
+  for (let i = 1; i < pts.length; i++) {
+    const segLen = lens[i - 1]
+    if (acc > reveal) break
+    const k = Math.min(1, (reveal - acc) / segLen)
+    const [x0, y0] = pts[i - 1]
+    const x1 = x0 + (pts[i][0] - x0) * k
+    const y1 = y0 + (pts[i][1] - y0) * k
+    const horizontal = Math.abs(pts[i][1] - y0) < 1
+    // muro de luz translúcido (solo en tramos horizontales, como el muro de la moto)
+    if (horizontal) {
+      const wallH = 64
+      const g = ctx.createLinearGradient(0, y0, 0, y0 + wallH)
+      g.addColorStop(0, `rgba(${wallC},${dark ? .34 : .20})`)
+      g.addColorStop(1, `rgba(${wallC},0)`)
+      ctx.fillStyle = g
+      ctx.fillRect(Math.min(x0, x1), y0, Math.abs(x1 - x0), wallH)
+    }
+    // núcleo brillante
+    ctx.strokeStyle = `rgba(${core},.95)`
+    ctx.lineWidth = 4
+    ctx.lineCap = 'round'
+    ctx.shadowColor = `rgba(${wallC},1)`
+    ctx.shadowBlur = 16
+    ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke()
+    ctx.shadowBlur = 0
+    // cabeza del trail: la "moto" (cápsula brillante)
+    if (acc + segLen >= reveal && reveal > 0) {
+      const ang = Math.atan2(y1 - y0, x1 - x0)
+      ctx.save()
+      ctx.translate(x1, y1); ctx.rotate(ang)
+      ctx.fillStyle = '#fff'
+      ctx.shadowColor = `rgba(${core},1)`
+      ctx.shadowBlur = 22
+      ctx.beginPath(); ctx.roundRect(-16, -4, 22, 8, 4); ctx.fill()
+      ctx.restore()
+      ctx.shadowBlur = 0
+    }
+    acc += segLen
+  }
+
+  /* ---------- holograma FMP 3D dentro del disco ---------- */
+  const hs = d.r * 1.0
+  holo.style.width = hs + 'px'
+  holo.style.height = hs + 'px'
+  holo.style.left = (d.x - hs / 2) + 'px'
+  holo.style.top = (d.y - hs / 2) + 'px'
+  holo.style.opacity = (charge * discFade).toFixed(2)
+  const mx = mouse.x > 0 ? (mouse.x / W() - .5) : 0
+  const my = mouse.y > 0 ? (mouse.y / H() - .5) : 0
+  const idle = Math.sin(t * .8) * 10
+  holo.style.transform = `perspective(700px) rotateY(${(mx * 46 + idle).toFixed(1)}deg) rotateX(${(-my * 30).toFixed(1)}deg)`
+
+  requestAnimationFrame(draw)
+}
+requestAnimationFrame(draw)
+</script>
+</body>
+</html>

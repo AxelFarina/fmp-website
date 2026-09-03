@@ -8,12 +8,13 @@ const SHOWCASE = ['sap-business-one', 'sap-s4hana-rise', 'trebol-hrm-cloud', 'fa
 const IND_PREVIEW = [0, 2, 7, 6, 8, 15, 5, 17] // comercio, construcción, salud, educación, financieros, turismo, transporte, bienes raíces
 const BARS = [42, 66, 50, 84, 58, 92, 70, 48, 76, 60, 88, 54]
 
+/* Tags hang on the panel's edges — never over its content. */
 const TAGS = [
-  { label: 'S/4HANA', style: { top: -20, right: 46, animationDelay: '.6s' } },
-  { label: 'BUSINESS ONE', style: { left: -38, top: 96, animationDelay: '1.4s' } },
-  { label: 'POS B1', style: { left: -20, bottom: 64, animationDelay: '.2s' } },
-  { label: 'TREBOL HRM', style: { right: -30, bottom: 120, animationDelay: '1s' } },
-  { label: 'M365', style: { right: -14, top: 150, animationDelay: '1.8s' } },
+  { label: 'S/4HANA', style: { top: -22, right: -18, animationDelay: '.6s' } },
+  { label: 'BUSINESS ONE', style: { left: -44, top: '40%', animationDelay: '1.4s' } },
+  { label: 'POS B1', style: { left: 46, bottom: -20, animationDelay: '.2s' } },
+  { label: 'TREBOL HRM', style: { right: 60, bottom: -20, animationDelay: '1s' } },
+  { label: 'M365', style: { right: -30, top: '26%', animationDelay: '1.8s' } },
 ]
 
 export default function Home({ t, lang, theme }) {
@@ -54,39 +55,66 @@ export default function Home({ t, lang, theme }) {
 
           <div className="dash-wrap" data-intro="fade">
             <div className="dash">
-              <div className="dash-in">
-                <div className="dash-head">
-                  <div className="dash-dot" /><div className="dash-dot" /><div className="dash-dot" />
-                  <div className="dash-title">{h.dashTitle}</div>
-                  <div className="dash-live">{h.dashLive}</div>
+              <div className="b1">
+                <div className="b1-top">
+                  <span className="b1-brand">
+                    <span className="b1-sap">SAP</span>
+                    <span className="b1-bo">Business One</span>
+                  </span>
+                  <span className="b1-top-mid">{h.b1dash.topMenu}</span>
+                  <span className="b1-live">{h.b1dash.live}</span>
                 </div>
-                <div className="dash-kpis">
-                  {h.dashKpis.map((k) => (
-                    <div key={k.lbl} className="kpi">
-                      <div className="kpi-lbl">{k.lbl}</div>
-                      <div className="kpi-val">{k.val}</div>
-                      <div className="kpi-delta">{k.delta}</div>
+                <div className="b1-body">
+                  <aside className="b1-side">
+                    {h.b1dash.menu.map((m, i) => (
+                      <div key={m} className={i === 0 ? 'on' : ''}>{m}</div>
+                    ))}
+                  </aside>
+                  <div className="b1-main">
+                    <div className="b1-main-title">{h.b1dash.title}</div>
+                    <div className="b1-kpis">
+                      {h.b1dash.kpis.map((k) => (
+                        <div key={k.lbl} className="b1-kpi">
+                          <div className="b1-kpi-lbl">{k.lbl}</div>
+                          <div className="b1-kpi-sub">{k.sub}</div>
+                          <div className={`b1-kpi-val ${k.tone}`}>{k.val}</div>
+                          <svg className="b1-spark" viewBox="0 0 60 16">
+                            <polyline
+                              points="0,12 10,8 20,10 30,5 40,9 50,3 60,6"
+                              fill="none"
+                              stroke={k.tone === 'g' ? '#5AD07A' : k.tone === 'b' ? '#57B9FF' : '#38D6C4'}
+                              strokeWidth="1.6"
+                            />
+                          </svg>
+                          <div className="b1-kpi-delta">{k.delta}</div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-                <div className="dash-main">
-                  <div className="dash-chart">
-                    {BARS.map((v, i) => (
-                      <div
-                        key={i}
-                        className={`dash-bar ${i % 5 === 3 ? 'hot' : ''}`}
-                        style={{ height: `${v}%`, animationDelay: `${(i * 0.28).toFixed(2)}s` }}
-                      />
-                    ))}
-                  </div>
-                  <div className="dash-feed">
-                    {h.dashFeed.map((f, i) => (
-                      <div key={f.text} className="feed-row" style={{ animationDelay: `${i * 1.4}s` }}>
-                        <div className="feed-ico">{f.icon}</div>
-                        <span>{f.text}</span>
-                        <span className="feed-ok">OK</span>
+                    <div className="b1-charts">
+                      <div className="b1-card">
+                        <div className="b1-card-title">{h.b1dash.chartTitle}<span>{h.b1dash.chartSub}</span></div>
+                        <div className="b1-bars">
+                          {BARS.map((v, i) => (
+                            <div
+                              key={i}
+                              className={`b1-bar ${i % 2 === 1 ? 'alt' : ''}`}
+                              style={{ height: `${v}%`, animationDelay: `${(i * 0.26).toFixed(2)}s` }}
+                            />
+                          ))}
+                        </div>
                       </div>
-                    ))}
+                      <div className="b1-card">
+                        <div className="b1-card-title">{h.b1dash.donutTitle}</div>
+                        <div className="b1-donut-row">
+                          <div className="b1-donut"><span>{h.b1dash.donutCenter}</span></div>
+                          <ul className="b1-legend">
+                            {h.b1dash.legend.map((g) => (
+                              <li key={g.l}><i style={{ background: g.c }} />{g.l}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -119,14 +147,14 @@ export default function Home({ t, lang, theme }) {
               </div>
               <div className="exp-minis">
                 <div className="exp-mini">
-                  <span className="exp-mini-num"><Counter value="+200" /></span>
+                  <span className="exp-mini-num"><Counter value="+500" /></span>
                   <span className="exp-mini-lbl">{h.exp.miniClients}</span>
                 </div>
                 <div className="exp-mini">
                   <span className="exp-mini-num"><Counter value="+9000" /></span>
                   <span className="exp-mini-lbl">{h.exp.miniServices}</span>
                 </div>
-                <img src="assets/img/sap-partner-badge.jpg" alt="SAP Partner" className="exp-badge" />
+                <img src="assets/img/sap-partner.png" alt="SAP Partner" className="exp-badge" />
               </div>
             </div>
           </div>
@@ -149,7 +177,7 @@ export default function Home({ t, lang, theme }) {
                   </li>
                 ))}
               </ul>
-              <img src="assets/img/sap-partner-badge.jpg" alt="SAP Partner" style={{ position: 'relative', height: 54, borderRadius: 8, marginTop: 24, background: '#fff', padding: 4 }} />
+              <img src="assets/img/sap-partner.png" alt="SAP Partner" style={{ position: 'relative', height: 58, marginTop: 24 }} />
             </SpotCard>
           </Reveal>
           <Reveal>
